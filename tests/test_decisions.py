@@ -129,3 +129,18 @@ def test_purpose_denial_lists_permitted_purposes(engine, ehr):
     )
     assert not d.allowed
     assert "quality improvement" in d.reasons[0]
+
+
+def test_breast_cancer_and_lyme_follow_the_health_regimes(engine):
+    from blind_policy import find_schema
+
+    bc, lyme = find_schema("breast-cancer-train"), find_schema("lyme-train-v2")
+    assert bc.domain == lyme.domain == "health"
+    informaticist = subject("clinical_informaticist", "US")
+    d = engine.check(informaticist, bc, "quality_improvement", "aggregate")
+    assert d.allowed and d.policies == ["hipaa.clinical_informaticist.analyze"]
+    ids = engine.check(informaticist, bc, "quality_improvement", "identifier_plaintext")
+    assert not ids.allowed
+    assert "cancer_5yr" not in engine.plan(informaticist, bc, "quality_improvement").decryptable
+    assert engine.check(informaticist, lyme, "research", "aggregate").allowed
+    assert not engine.check(informaticist, lyme, "marketing", "aggregate").allowed
