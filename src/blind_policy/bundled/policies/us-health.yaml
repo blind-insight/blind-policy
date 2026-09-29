@@ -8,8 +8,10 @@ cite: HIPAA §164.502(b) minimum necessary
 applies_to:
   jurisdictions: [US]
   domains: [health]
-purposes: [treatment_operations, research, regulatory_reporting]
-purpose_cite: HIPAA permitted uses (treatment and operations, research, oversight)
+# Quality improvement is health care operations under 45 CFR §164.501
+# ("quality assessment and improvement activities").
+purposes: [treatment_operations, quality_improvement, research, regulatory_reporting]
+purpose_cite: HIPAA
 obligations:
   min_cohort: 11
 
@@ -17,7 +19,7 @@ sets:
   safe_metrics: [department, year, readmitted_30d, length_of_stay_days]
 
 roles:
-  clinical_analyst:
+  clinical_informaticist:
     analyze:  all fields
     decrypt:  department, readmitted_30d
     identifiers: never          # §164.514(b) Safe Harbor

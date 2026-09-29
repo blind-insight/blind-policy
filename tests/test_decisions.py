@@ -23,8 +23,8 @@ def test_germany_analyst_iban_denied_with_reason(engine, fraud):
     assert "GDPR" in d.reasons[0]
 
 
-def test_us_clinical_analyst_minimum_necessary(engine, ehr):
-    plan = engine.plan(subject("clinical_analyst", "US"), ehr, "treatment_operations")
+def test_us_clinical_informaticist_minimum_necessary(engine, ehr):
+    plan = engine.plan(subject("clinical_informaticist", "US"), ehr, "treatment_operations")
     assert plan.decryptable == ["department", "readmitted_30d"]
     assert "patient_id" not in plan.queryable
     assert plan.obligations == {"min_cohort": "11"}
@@ -97,7 +97,7 @@ def test_authzen_field_evaluation(engine):
         {
             "subject": {
                 "id": "c",
-                "properties": {"roles": ["clinical_analyst"], "jurisdiction": "US"},
+                "properties": {"roles": ["clinical_informaticist"], "jurisdiction": "US"},
             },
             "action": {"name": "decrypt"},
             "resource": {"type": "field", "id": "ehr-data-v3.readmitted_30d"},
@@ -113,3 +113,34 @@ def test_policy_source_lookup(engine):
     assert text.startswith("// EU · fraud_analyst · identifiers: never")
     assert "forbid (" in text
     assert engine.policy_source("nope") == ""
+
+
+def test_quality_improvement_is_health_care_operations(engine, ehr):
+    d = engine.check(
+        subject("clinical_informaticist", "US"), ehr, "quality_improvement", "aggregate"
+    )
+    assert d.allowed
+    assert d.policies == ["hipaa.clinical_informaticist.analyze"]
+
+
+def test_purpose_denial_lists_permitted_purposes(engine, ehr):
+    d = engine.check(
+        subject("clinical_informaticist", "US"), ehr, "fraud_investigation", "aggregate"
+    )
+    assert not d.allowed
+    assert "quality improvement" in d.reasons[0]
+
+
+def test_breast_cancer_and_lyme_follow_the_health_regimes(engine):
+    from blind_policy import find_schema
+
+    bc, lyme = find_schema("breast-cancer-train"), find_schema("lyme-train-v2")
+    assert bc.domain == lyme.domain == "health"
+    informaticist = subject("clinical_informaticist", "US")
+    d = engine.check(informaticist, bc, "quality_improvement", "aggregate")
+    assert d.allowed and d.policies == ["hipaa.clinical_informaticist.analyze"]
+    ids = engine.check(informaticist, bc, "quality_improvement", "identifier_plaintext")
+    assert not ids.allowed
+    assert "cancer_5yr" not in engine.plan(informaticist, bc, "quality_improvement").decryptable
+    assert engine.check(informaticist, lyme, "research", "aggregate").allowed
+    assert not engine.check(informaticist, lyme, "marketing", "aggregate").allowed

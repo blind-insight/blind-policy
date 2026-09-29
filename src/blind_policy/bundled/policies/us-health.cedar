@@ -4,20 +4,20 @@
 
 @id("hipaa.purpose_limitation")
 @regime("HIPAA")
-@reason("HIPAA permitted uses (treatment and operations, research, oversight): this purpose is not permitted for this data")
+@reason("HIPAA: permitted purposes are treatment & operations, quality improvement, research, regulatory reporting")
 forbid (principal, action, resource is BI::Field) when {
   ["US"].contains(principal.jurisdiction) &&
   ["health"].contains(resource.domain)
 }
-unless { ["treatment_operations", "research", "regulatory_reporting"].contains(context.purpose) };
+unless { ["treatment_operations", "quality_improvement", "research", "regulatory_reporting"].contains(context.purpose) };
 
-// HIPAA · clinical_analyst · analyze
-@id("hipaa.clinical_analyst.analyze")
+// HIPAA · clinical_informaticist · analyze
+@id("hipaa.clinical_informaticist.analyze")
 @regime("HIPAA")
 @reason("HIPAA §164.502(b) minimum necessary · §164.514(b) Safe Harbor")
 @obligation_min_cohort("11")
 permit (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action == BI::Action::"query_aggregate",
   resource is BI::Field
 ) when {
@@ -26,13 +26,13 @@ permit (
   resource.sensitivity != "identifier"
 };
 
-// HIPAA · clinical_analyst · decrypt
-@id("hipaa.clinical_analyst.decrypt")
+// HIPAA · clinical_informaticist · decrypt
+@id("hipaa.clinical_informaticist.decrypt")
 @regime("HIPAA")
 @reason("HIPAA §164.502(b) minimum necessary · §164.514(b) Safe Harbor")
 @obligation_min_cohort("11")
 permit (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action == BI::Action::"decrypt",
   resource is BI::Field
 ) when {
@@ -41,12 +41,12 @@ permit (
   ["department", "readmitted_30d"].contains(resource.name)
 };
 
-// HIPAA · clinical_analyst · identifiers: never
-@id("hipaa.clinical_analyst.identifiers")
+// HIPAA · clinical_informaticist · identifiers: never
+@id("hipaa.clinical_informaticist.identifiers")
 @regime("HIPAA")
 @reason("HIPAA §164.502(b) minimum necessary · §164.514(b) Safe Harbor: identifiers never leave the proxy for this role")
 forbid (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action in [BI::Action::"query_aggregate", BI::Action::"decrypt"],
   resource is BI::Field
 ) when {

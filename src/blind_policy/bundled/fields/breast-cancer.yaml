@@ -1,0 +1,20 @@
+# Breast cancer screening (blind-ml/schemas/breast_cancer.json).
+# Tagged like the EHR schema, so the same HIPAA / GDPR regimes apply.
+name: breast-cancer
+domain: health
+slugs: [breast-cancer-train, breast-cancer-test, bc-train, bc-test]
+fields:
+  patient_id: identifier
+  age: quasi
+  age_group: quasi
+  race_ethnicity: quasi
+  age_at_menarche: sensitive
+  menarche_category: sensitive
+  age_at_first_birth: sensitive
+  num_first_degree_relatives: sensitive
+  family_history: sensitive
+  num_prior_biopsies: sensitive
+  has_prior_biopsy: sensitive
+  atypical_hyperplasia: sensitive
+  breast_density: sensitive
+  cancer_5yr: sensitive # the outcome: aggregates only, never decrypted by an agent
