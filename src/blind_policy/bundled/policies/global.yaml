@@ -1,0 +1,47 @@
+# GLOBAL / remote  →  no single regime applies, so the most restrictive default wins
+regime: GLOBAL
+cite: No single regime applies; most restrictive default
+applies_to:
+  jurisdictions: [GLOBAL]
+purposes: [fraud_investigation, regulatory_reporting, research]
+
+sets:
+  safe_metrics: [risk_level, fraud_type, year, month, is_active, is_fraud, risk_score,
+                 fraud_flag_count, avg_monthly_txn_vol, department, readmitted_30d,
+                 length_of_stay_days]
+
+roles:
+  fraud_analyst:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  compliance_officer:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  data_scientist:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  clinical_analyst:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  journalist:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  regulator:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  data_owner:
+    analyze:  all fields
+    decrypt:  all fields
+    identifiers: allowed

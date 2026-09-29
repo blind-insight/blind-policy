@@ -1,0 +1,16 @@
+# The 30-row persona table from the local-demo console (BAC-547, console/acl.py
+# PERSONA_TIER), used as a parity fixture. Each row: job, location → tier that
+# the old hard-coded table produced for fraud data.
+jurisdictions: {germany: DE, eu: EU, uk: UK, us: US, global: GLOBAL}
+tiers:
+  fraud_analyst:      {germany: analyze_all_no_decrypt,  eu: analyze_all_no_decrypt,  uk: analyze_all_no_decrypt,  us: analyze_decrypt_some,    global: analyze_some_no_decrypt}
+  compliance_officer: {germany: analyze_some_no_decrypt, eu: analyze_some_no_decrypt, uk: analyze_some_no_decrypt, us: analyze_all_no_decrypt,  global: analyze_some_no_decrypt}
+  data_scientist:     {germany: analyze_all_no_decrypt,  eu: analyze_all_no_decrypt,  uk: analyze_decrypt_some,    us: analyze_decrypt_some,    global: analyze_all_no_decrypt}
+  journalist:         {germany: analyze_some_no_decrypt, eu: analyze_some_no_decrypt, uk: analyze_some_no_decrypt, us: analyze_some_no_decrypt, global: analyze_some_no_decrypt}
+  regulator:          {germany: analyze_all_no_decrypt,  eu: analyze_all_no_decrypt,  uk: analyze_all_no_decrypt,  us: analyze_decrypt_some,    global: analyze_all_no_decrypt}
+  data_owner:         {germany: analyze_decrypt_all,     eu: analyze_decrypt_all,     uk: analyze_decrypt_all,     us: analyze_decrypt_all,     global: analyze_decrypt_all}
+# Rows where the Cedar policies deliberately differ from the old table.
+intentional_differences:
+  data_scientist/uk: >-
+    UK is governed by the EU regime file (UK GDPR), so a UK data scientist gets
+    analyze_all_no_decrypt like DE/EU instead of decrypt access. Stricter, on purpose.

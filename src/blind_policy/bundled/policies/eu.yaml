@@ -1,0 +1,51 @@
+# EU  →  GDPR Art. 5(1)(c) · DORA Art. 9(2)
+#
+# Who sits in the EU or UK and what they may read. "analyze" hands out the
+# query key (encrypted count / avg / filter). "decrypt" hands out data keys.
+regime: EU
+cite: GDPR Art. 5(1)(c) data minimisation · DORA Art. 9(2)
+applies_to:
+  jurisdictions: [DE, EU, UK]
+purposes: [fraud_investigation, regulatory_reporting, research, treatment_operations]
+purpose_cite: GDPR Art. 5(1)(b) purpose limitation
+
+sets:
+  safe_metrics: [risk_level, fraud_type, year, month, is_active, is_fraud, risk_score,
+                 fraud_flag_count, avg_monthly_txn_vol, department, readmitted_30d,
+                 length_of_stay_days]
+
+roles:
+  fraud_analyst:
+    analyze:  all fields
+    decrypt:  none              # data minimisation
+    identifiers: never
+
+  compliance_officer:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  data_scientist:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  clinical_analyst:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  journalist:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  regulator:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  data_owner:
+    analyze:  all fields
+    decrypt:  all fields
+    identifiers: allowed

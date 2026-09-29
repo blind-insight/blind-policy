@@ -1,0 +1,52 @@
+[project]
+name = "blind-policy"
+version = "0.1.0"
+description = "Decide what an AI agent may read: roles, purpose, and compliance regime compiled to Cedar policies and Blind Insight field grants."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Blind Insight", email = "hello@blindinsight.com" }]
+keywords = ["cedar", "authorization", "ai-agents", "policy", "gdpr", "hipaa", "encryption"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+]
+dependencies = [
+  "cedarpy>=4.12,<5",
+  "pyyaml>=6.0",
+]
+
+[project.scripts]
+blind-policy = "blind_policy.cli:main"
+
+[project.urls]
+Homepage = "https://blindinsight.com"
+Documentation = "https://docs.blindinsight.io"
+
+[dependency-groups]
+dev = [
+  "pytest>=8",
+  "ruff>=0.6",
+  "pre-commit>=3.7",
+]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/blind_policy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]

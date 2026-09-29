@@ -1,0 +1,16 @@
+# Fraud reports shared between banks (blind-ml/schemas/fraud.json).
+name: fraud
+domain: finance
+slugs: [fraud-train, fraud-test, train, test]
+fields:
+  report_id: identifier
+  reporting_bank_id: identifier
+  reported_iban: identifier
+  account_jurisdiction: quasi
+  reporting_jurisdiction: quasi
+  risk_level: analysis
+  fraud_type: analysis
+  year: analysis
+  month: analysis
+  day: analysis
+  is_active: analysis

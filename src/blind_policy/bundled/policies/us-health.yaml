@@ -1,0 +1,51 @@
+# US  →  HIPAA §164.502(b) minimum necessary
+#
+# Health data read from the US. Every permit carries a small-cell floor:
+# aggregates over fewer than 11 people are suppressed. (11 is the CMS
+# cell-size convention, used here as a configurable default.)
+regime: HIPAA
+cite: HIPAA §164.502(b) minimum necessary
+applies_to:
+  jurisdictions: [US]
+  domains: [health]
+purposes: [treatment_operations, research, regulatory_reporting]
+purpose_cite: HIPAA permitted uses (treatment and operations, research, oversight)
+obligations:
+  min_cohort: 11
+
+sets:
+  safe_metrics: [department, year, readmitted_30d, length_of_stay_days]
+
+roles:
+  clinical_analyst:
+    analyze:  all fields
+    decrypt:  department, readmitted_30d
+    identifiers: never          # §164.514(b) Safe Harbor
+    cite: HIPAA §164.502(b) minimum necessary · §164.514(b) Safe Harbor
+
+  data_scientist:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  compliance_officer:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  regulator:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  journalist:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  data_owner:
+    analyze:  all fields
+    decrypt:  all fields
+    identifiers: allowed
+    obligations:
+      min_cohort: null          # the owner is not subject to cell suppression

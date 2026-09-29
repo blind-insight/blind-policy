@@ -1,0 +1,46 @@
+# US  →  financial data (example baseline, not legal advice)
+#
+# Mirrors the persona tiers from the local-demo console: US analysts may
+# decrypt non-identifying risk fields; identifiers stay sealed.
+regime: US-FIN
+cite: US financial data example baseline
+applies_to:
+  jurisdictions: [US]
+  domains: [finance]
+purposes: [fraud_investigation, regulatory_reporting, research]
+
+sets:
+  safe_metrics: [risk_level, fraud_type, year, month, is_active, is_fraud, risk_score,
+                 fraud_flag_count, avg_monthly_txn_vol]
+  safe_decrypt: [risk_level, fraud_type, year, month, is_fraud, risk_score]
+
+roles:
+  fraud_analyst:
+    analyze:  all fields
+    decrypt:  safe_decrypt
+    identifiers: never
+
+  compliance_officer:
+    analyze:  all fields
+    decrypt:  none
+    identifiers: never
+
+  data_scientist:
+    analyze:  all fields
+    decrypt:  safe_decrypt
+    identifiers: never
+
+  journalist:
+    analyze:  safe_metrics
+    decrypt:  none
+    identifiers: never
+
+  regulator:
+    analyze:  all fields
+    decrypt:  safe_decrypt
+    identifiers: never
+
+  data_owner:
+    analyze:  all fields
+    decrypt:  all fields
+    identifiers: allowed

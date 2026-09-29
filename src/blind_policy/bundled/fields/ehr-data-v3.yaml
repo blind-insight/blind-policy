@@ -1,0 +1,18 @@
+# Synthetic electronic health records (local-demo EHRDemo/schemas/ehr_data_v3.json).
+name: ehr-data-v3
+domain: health
+slugs: [ehr-data, ehr]
+fields:
+  patient_id: identifier
+  year: analysis
+  month: quasi # dates tied to a patient are HIPAA identifiers; year alone is not
+  day: quasi
+  age: quasi
+  sex: quasi
+  department: analysis
+  procedure: sensitive
+  diagnosis: sensitive
+  billed_amount: analysis
+  length_of_stay_days: analysis
+  readmitted_30d: analysis
+  note: sensitive # free text; phrase-searchable, never decrypted by an agent

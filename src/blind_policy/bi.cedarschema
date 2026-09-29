@@ -1,0 +1,27 @@
+// Blind Insight concepts as Cedar types.
+//
+// A User sits in one or more Roles (in Blind Insight: Team membership).
+// A Field is one column of an encrypted schema, tagged with a sensitivity.
+// The two actions mirror the two kinds of key a Grant can hand out:
+//   query_aggregate -> the __query key (count / avg / filter over ciphertext)
+//   decrypt         -> a per-field data key (plaintext for that field only)
+namespace BI {
+  entity Role;
+  entity User in [Role] = {
+    jurisdiction: String,
+  };
+  entity Field = {
+    name: String,
+    schema: String,
+    domain: String,
+    sensitivity: String,
+  };
+
+  action query_aggregate, decrypt appliesTo {
+    principal: [User],
+    resource: [Field],
+    context: {
+      purpose: String,
+    },
+  };
+}

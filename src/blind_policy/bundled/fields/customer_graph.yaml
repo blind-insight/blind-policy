@@ -1,0 +1,18 @@
+# Single Customer View (blind-ml/schemas/customer_graph.json).
+name: customer_graph
+domain: finance
+slugs: [single-customer-view-data, scv, customer-graph]
+fields:
+  customer_id: identifier
+  contributor: analysis
+  account_status: analysis
+  home_country: quasi
+  ip_country: quasi
+  auth_method: analysis
+  is_fraud: analysis
+  avg_monthly_txn_vol: analysis
+  fraud_flag_count: analysis
+  risk_score: analysis
+  year: analysis
+  month: analysis
+  day: analysis
