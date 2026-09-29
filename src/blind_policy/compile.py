@@ -41,6 +41,10 @@ class PolicyFileError(ValueError):
     pass
 
 
+def _purpose_label(purpose: str) -> str:
+    return purpose.replace("treatment_operations", "treatment & operations").replace("_", " ")
+
+
 def _q(value: str) -> str:
     return json.dumps(str(value), ensure_ascii=False)
 
@@ -149,7 +153,8 @@ def compile_regime(data: dict[str, Any], *, source: str = "<yaml>") -> str:
             _annotations(
                 f"{prefix}.purpose_limitation",
                 regime,
-                f"{purpose_cite}: this purpose is not permitted for this data",
+                f"{purpose_cite}: permitted purposes are "
+                + ", ".join(_purpose_label(p) for p in purposes),
                 {},
             )
         )

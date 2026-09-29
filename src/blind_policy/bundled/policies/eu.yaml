@@ -6,7 +6,7 @@ regime: EU
 cite: GDPR Art. 5(1)(c) data minimisation · DORA Art. 9(2)
 applies_to:
   jurisdictions: [DE, EU, UK]
-purposes: [fraud_investigation, regulatory_reporting, research, treatment_operations]
+purposes: [fraud_investigation, regulatory_reporting, research, treatment_operations, quality_improvement]
 purpose_cite: GDPR Art. 5(1)(b) purpose limitation
 
 sets:
@@ -30,7 +30,7 @@ roles:
     decrypt:  none
     identifiers: never
 
-  clinical_analyst:
+  clinical_informaticist:
     analyze:  all fields
     decrypt:  none
     identifiers: never
