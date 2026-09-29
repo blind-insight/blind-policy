@@ -4,11 +4,11 @@
 
 @id("global.purpose_limitation")
 @regime("GLOBAL")
-@reason("No single regime applies; most restrictive default: this purpose is not permitted for this data")
+@reason("No single regime applies; most restrictive default: permitted purposes are fraud investigation, regulatory reporting, research, quality improvement")
 forbid (principal, action, resource is BI::Field) when {
   ["GLOBAL"].contains(principal.jurisdiction)
 }
-unless { ["fraud_investigation", "regulatory_reporting", "research"].contains(context.purpose) };
+unless { ["fraud_investigation", "regulatory_reporting", "research", "quality_improvement"].contains(context.purpose) };
 
 // GLOBAL · fraud_analyst · analyze
 @id("global.fraud_analyst.analyze")
@@ -88,12 +88,12 @@ forbid (
   resource.sensitivity == "identifier"
 };
 
-// GLOBAL · clinical_analyst · analyze
-@id("global.clinical_analyst.analyze")
+// GLOBAL · clinical_informaticist · analyze
+@id("global.clinical_informaticist.analyze")
 @regime("GLOBAL")
 @reason("No single regime applies; most restrictive default")
 permit (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action == BI::Action::"query_aggregate",
   resource is BI::Field
 ) when {
@@ -101,12 +101,12 @@ permit (
   ["risk_level", "fraud_type", "year", "month", "is_active", "is_fraud", "risk_score", "fraud_flag_count", "avg_monthly_txn_vol", "department", "readmitted_30d", "length_of_stay_days"].contains(resource.name)
 };
 
-// GLOBAL · clinical_analyst · identifiers: never
-@id("global.clinical_analyst.identifiers")
+// GLOBAL · clinical_informaticist · identifiers: never
+@id("global.clinical_informaticist.identifiers")
 @regime("GLOBAL")
 @reason("No single regime applies; most restrictive default: identifiers never leave the proxy for this role")
 forbid (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action in [BI::Action::"query_aggregate", BI::Action::"decrypt"],
   resource is BI::Field
 ) when {

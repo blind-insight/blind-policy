@@ -4,11 +4,11 @@
 
 @id("eu.purpose_limitation")
 @regime("EU")
-@reason("GDPR Art. 5(1)(b) purpose limitation: this purpose is not permitted for this data")
+@reason("GDPR Art. 5(1)(b) purpose limitation: permitted purposes are fraud investigation, regulatory reporting, research, treatment & operations, quality improvement")
 forbid (principal, action, resource is BI::Field) when {
   ["DE", "EU", "UK"].contains(principal.jurisdiction)
 }
-unless { ["fraud_investigation", "regulatory_reporting", "research", "treatment_operations"].contains(context.purpose) };
+unless { ["fraud_investigation", "regulatory_reporting", "research", "treatment_operations", "quality_improvement"].contains(context.purpose) };
 
 // EU · fraud_analyst · analyze
 @id("eu.fraud_analyst.analyze")
@@ -88,12 +88,12 @@ forbid (
   resource.sensitivity == "identifier"
 };
 
-// EU · clinical_analyst · analyze
-@id("eu.clinical_analyst.analyze")
+// EU · clinical_informaticist · analyze
+@id("eu.clinical_informaticist.analyze")
 @regime("EU")
 @reason("GDPR Art. 5(1)(c) data minimisation · DORA Art. 9(2)")
 permit (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action == BI::Action::"query_aggregate",
   resource is BI::Field
 ) when {
@@ -101,12 +101,12 @@ permit (
   resource.sensitivity != "identifier"
 };
 
-// EU · clinical_analyst · identifiers: never
-@id("eu.clinical_analyst.identifiers")
+// EU · clinical_informaticist · identifiers: never
+@id("eu.clinical_informaticist.identifiers")
 @regime("EU")
 @reason("GDPR Art. 5(1)(c) data minimisation · DORA Art. 9(2): identifiers never leave the proxy for this role")
 forbid (
-  principal in BI::Role::"clinical_analyst",
+  principal in BI::Role::"clinical_informaticist",
   action in [BI::Action::"query_aggregate", BI::Action::"decrypt"],
   resource is BI::Field
 ) when {
