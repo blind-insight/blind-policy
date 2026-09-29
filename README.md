@@ -96,16 +96,18 @@ blind-policy plan --role clinical_analyst --jurisdiction US --schema ehr-data-v3
 ```python
 from blind_policy import PolicyEngine, Subject, find_schema
 
-engine = PolicyEngine.bundled()                    # or PolicyEngine.from_dir("my-policies/")
+engine = PolicyEngine.bundled()  # or PolicyEngine.from_dir("my-policies/")
 analyst = Subject("ana", roles=["clinical_analyst"], jurisdiction="US")
 plan = engine.plan(analyst, find_schema("ehr-data-v3"), purpose="treatment_operations")
 
-plan.queryable     # fields the agent may count / average / filter
-plan.decryptable   # ['department', 'readmitted_30d']
-plan.obligations   # {'min_cohort': '11'}
-plan.grant()       # {'field_names': {'__query': True, 'department': True, 'readmitted_30d': True}, ...}
+plan.queryable  # fields the agent may count / average / filter
+plan.decryptable  # ['department', 'readmitted_30d']
+plan.obligations  # {'min_cohort': '11'}
+plan.grant()  # {'field_names': {'__query': True, 'department': True, 'readmitted_30d': True}, ...}
 
-decision = engine.check(analyst, find_schema("ehr-data-v3"), "treatment_operations", "identifier_plaintext")
+decision = engine.check(
+    analyst, find_schema("ehr-data-v3"), "treatment_operations", "identifier_plaintext"
+)
 decision.allowed, decision.policies, decision.reasons
 decision.to_authzen()
 ```

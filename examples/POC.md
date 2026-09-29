@@ -32,7 +32,7 @@ blind-policy plan --policies my-policies/ --schema my-fields.yaml \
 ## 4. Put the decision in front of the agent
 
 ```python
-from blindllm import build_provider          # model instructions + provider adapter
+from blindllm import build_provider  # model instructions + provider adapter
 from blind_policy import PolicyEngine, Subject, SchemaSpec, classify
 
 engine = PolicyEngine.from_dir("my-policies/")
@@ -41,10 +41,10 @@ user = Subject("ana", roles=["analyst"], jurisdiction="DE")
 
 decision = engine.check(user, schema, purpose="research", intent=classify(question))
 if not decision.allowed:
-    return decision.message, decision.reasons        # never reaches the model
+    return decision.message, decision.reasons  # never reaches the model
 
 plan = decision.plan
-catalog = {"schemas": [{"slug": schema.name, "fields": plan.visible}]}   # the model only sees these
+catalog = {"schemas": [{"slug": schema.name, "fields": plan.visible}]}  # the model only sees these
 # ... run the agent loop; before each query_aggregate, check its filter fields are in plan.queryable
 ```
 

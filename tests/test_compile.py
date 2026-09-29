@@ -10,9 +10,9 @@ from blind_policy.compile import PolicyFileError
 def test_committed_cedar_matches_yaml():
     """The .cedar files in the repo are exactly what the YAML compiles to."""
     for path, text in compile_dir(bundled_policy_dir()).items():
-        assert (
-            path.read_text(encoding="utf-8") == text
-        ), f"{path.name} is stale: run compile --write"
+        assert path.read_text(encoding="utf-8") == text, (
+            f"{path.name} is stale: run compile --write"
+        )
 
 
 def test_all_policies_validate_against_schema():
