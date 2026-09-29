@@ -3,7 +3,7 @@ name = "blind-policy"
 version = "0.1.0"
 description = "Decide what an AI agent may read: roles, purpose, and compliance regime compiled to Cedar policies and Blind Insight field grants."
 readme = "README.md"
-license = "Apache-2.0"
+license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [{ name = "Blind Insight", email = "hello@blindinsight.com" }]
@@ -11,7 +11,7 @@ keywords = ["cedar", "authorization", "ai-agents", "policy", "gdpr", "hipaa", "e
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: Apache Software License",
+  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Topic :: Security",
 ]

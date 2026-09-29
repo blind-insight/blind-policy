@@ -172,4 +172,4 @@ uv run pre-commit run -a
 
 ## License
 
-Apache-2.0.
+MIT.
