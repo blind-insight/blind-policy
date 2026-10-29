@@ -4,7 +4,7 @@
 
 @id("us_fin.purpose_limitation")
 @regime("US-FIN")
-@reason("US financial data example baseline: this purpose is not permitted for this data")
+@reason("US financial data example baseline: permitted purposes are fraud investigation, regulatory reporting, research")
 forbid (principal, action, resource is BI::Field) when {
   ["US"].contains(principal.jurisdiction) &&
   ["finance"].contains(resource.domain)

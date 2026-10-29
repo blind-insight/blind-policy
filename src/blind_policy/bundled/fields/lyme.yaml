@@ -1,0 +1,18 @@
+# Lyme disease incidence (local-demo lymedisease/blind-ml/schemas/lyme.json).
+# Environmental and incidence measures; no field identifies a person.
+# Health domain, so the same regimes as EHR apply.
+name: lyme
+domain: health
+slugs: [lyme-train-v2, lyme-test-v2, lyme-train, lyme-test]
+fields:
+  incidence_class: analysis
+  ecovariety: analysis
+  avoidsum: analysis
+  odo_vir: analysis
+  proc_lot: analysis
+  uc_cyne: analysis
+  tx_1: analysis
+  tm_1: analysis
+  vpd_1: analysis
+  presence: analysis
+  adjacency: analysis

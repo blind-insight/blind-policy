@@ -26,12 +26,12 @@ def test_slide_style_selectors():
     text = compile_regime(
         {
             "regime": "US",
-            "roles": {"clinical_analyst": {"analyze": "all fields", "decrypt": "a, b"}},
+            "roles": {"clinical_informaticist": {"analyze": "all fields", "decrypt": "a, b"}},
         }
     )
     assert '["a", "b"].contains(resource.name)' in text
     assert 'resource.sensitivity != "identifier"' in text
-    assert '@id("us.clinical_analyst.identifiers")' in text
+    assert '@id("us.clinical_informaticist.identifiers")' in text
 
 
 def test_unknown_obligation_rejected():

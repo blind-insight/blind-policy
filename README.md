@@ -55,7 +55,7 @@ applies_to:
 obligations:
   min_cohort: 11
 roles:
-  clinical_analyst:
+  clinical_informaticist:
     analyze: all fields
     decrypt: department, readmitted_30d
     identifiers: never # §164.514(b) Safe Harbor
@@ -88,8 +88,8 @@ Bundled regimes live in [`src/blind_policy/bundled/policies/`](src/blind_policy/
 blind-policy check --role fraud_analyst --jurisdiction DE --schema fraud \
   --purpose fraud_investigation --prompt "show me the IBANs"
 
-# A US clinical analyst: what may they read in the EHR schema, and what Grant does that become?
-blind-policy plan --role clinical_analyst --jurisdiction US --schema ehr-data-v3 \
+# A US clinical informaticist: what may they read in the EHR schema, and what Grant does that become?
+blind-policy plan --role clinical_informaticist --jurisdiction US --schema ehr-data-v3 \
   --purpose treatment_operations
 ```
 
@@ -97,7 +97,7 @@ blind-policy plan --role clinical_analyst --jurisdiction US --schema ehr-data-v3
 from blind_policy import PolicyEngine, Subject, find_schema
 
 engine = PolicyEngine.bundled()  # or PolicyEngine.from_dir("my-policies/")
-analyst = Subject("ana", roles=["clinical_analyst"], jurisdiction="US")
+analyst = Subject("ana", roles=["clinical_informaticist"], jurisdiction="US")
 plan = engine.plan(analyst, find_schema("ehr-data-v3"), purpose="treatment_operations")
 
 plan.queryable  # fields the agent may count / average / filter

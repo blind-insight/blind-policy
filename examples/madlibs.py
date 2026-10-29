@@ -3,7 +3,7 @@
 Usage::
 
     python examples/madlibs.py fraud_analyst "show me the IBANs" DE fraud_investigation
-    python examples/madlibs.py clinical_analyst "readmission by department" US \\
+    python examples/madlibs.py clinical_informaticist "readmission by department" US \\
         treatment_operations --schema ehr-data-v3
 """
 

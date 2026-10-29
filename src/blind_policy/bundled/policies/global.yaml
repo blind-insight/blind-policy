@@ -3,7 +3,7 @@ regime: GLOBAL
 cite: No single regime applies; most restrictive default
 applies_to:
   jurisdictions: [GLOBAL]
-purposes: [fraud_investigation, regulatory_reporting, research]
+purposes: [fraud_investigation, regulatory_reporting, research, quality_improvement]
 
 sets:
   safe_metrics: [risk_level, fraud_type, year, month, is_active, is_fraud, risk_score,
@@ -26,7 +26,7 @@ roles:
     decrypt:  none
     identifiers: never
 
-  clinical_analyst:
+  clinical_informaticist:
     analyze:  safe_metrics
     decrypt:  none
     identifiers: never
