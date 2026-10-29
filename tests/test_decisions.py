@@ -10,7 +10,8 @@ def test_germany_analyst_sees_nothing_in_plaintext(engine, fraud):
     plan = engine.plan(subject("fraud_analyst", "DE"), fraud, "fraud_investigation")
     assert plan.decryptable == []
     assert "reported_iban" not in plan.queryable
-    assert plan.grant()["field_names"] == {"__query": True}
+    # BAC-571: partial queryable → per-field __query.<name>, not schema-wide __query.
+    assert plan.grant()["field_names"] == {f"__query.{name}": True for name in plan.queryable}
     assert plan.obligations["aggregate_only"] == "true"
 
 
@@ -28,11 +29,9 @@ def test_us_clinical_analyst_minimum_necessary(engine, ehr):
     assert plan.decryptable == ["department", "readmitted_30d"]
     assert "patient_id" not in plan.queryable
     assert plan.obligations == {"min_cohort": "11"}
-    assert plan.grant()["field_names"] == {
-        "__query": True,
-        "department": True,
-        "readmitted_30d": True,
-    }
+    expected = {f"__query.{name}": True for name in plan.queryable}
+    expected.update({"department": True, "readmitted_30d": True})
+    assert plan.grant()["field_names"] == expected
 
 
 def test_sensitive_fields_never_decrypt_except_owner(engine, ehr):

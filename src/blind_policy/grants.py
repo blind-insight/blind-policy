@@ -26,7 +26,15 @@ def to_grant(plan: FieldPlan) -> dict[str, Any] | None:
     if set(decryptable) == everything and set(queryable) == everything:
         field_names = None
     else:
-        field_names = {QUERY_KEY: True} if queryable else {}
+        field_names: dict[str, bool] = {}
+        if queryable:
+            if set(queryable) == everything:
+                # Full query access: one schema-level __query key (back-compat).
+                field_names[QUERY_KEY] = True
+            else:
+                # BAC-571: per-field __query.<name> so missing keys fail closed.
+                for name in queryable:
+                    field_names[f"{QUERY_KEY}.{name}"] = True
         field_names.update({name: True for name in decryptable})
     return {
         "schema": plan.schema.name,
@@ -36,6 +44,9 @@ def to_grant(plan: FieldPlan) -> dict[str, Any] | None:
         "decrypt_fields": decryptable,
         "enforcement": {
             "decrypt_fields": "cryptographic: only these field keys reach the agent's proxy",
-            "query_fields": "policy gate: checked before each query; __query covers all fields",
+            "query_fields": (
+                "cryptographic when schema.query_key_mode=field: "
+                "__query.<field> keys; else policy gate + schema-level __query"
+            ),
         },
     }
